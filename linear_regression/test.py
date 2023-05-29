@@ -11,8 +11,8 @@ def get_fake_data(iter,show=False):
     return X,y
 
 def count_y_prediction(X, w, b):
-    y_pred = w*X + [b]
-    # print(y_pred)
+    y_pred = w*X + b
+    print(y_pred)
     return y_pred
 
 def compete_error_for_given_points(y, y_pred):
@@ -26,10 +26,10 @@ def compete_gradient_and_update(X, w, b, lr):
     b_gradient = 0
     N = len(X)
     for i in range(N):
-        w_gradient += 2 * (w * X[i] + b - y[i]) * X[i]
-        b_gradient += 2 *(w * X[i] + b - y[i])
-    w -= lr * w_gradient / N
-    b -= lr * b_gradient / N
+        w_gradient += (w * X[i] + b - y[i]) * X[i]
+        b_gradient += (w * X[i] + b - y[i])
+    w -= lr * w_gradient
+    b -= lr * b_gradient
     return w,b
 def update2(y, w, b, lr):
     w = 0.5
@@ -52,11 +52,11 @@ def linaerRegression(X, y, w, b, i, lr = 0.001):
     print("loss:", error)
     losss.append(error)
 
-    # w, b = compete_gradient_and_update(X, w, b, lr)
-    w, b = update2(y, w, b, lr)
+    w, b = compete_gradient_and_update(X, w, b, lr)
+    # w, b = update2(y, w, b, lr)
     print(w,b)
     y_pred = count_y_prediction(X, w, b)
-    # draw(X, y, y_pred)
+    draw(X, y, y_pred)
     return w,b
 
 def draw(X, y, y_pred,final=True):
@@ -72,14 +72,15 @@ def draw(X, y, y_pred,final=True):
 
 if __name__ == "__main__":
     iter = 50
-    X,y = get_fake_data(iter,True)
+    X,y = get_fake_data(iter)
     w = np.random.randn(1)
-    b = -10
+    b = 0
     plt.ion() 
     for i in range(30):
-        w,b = linaerRegression(X, y, w, b, i,0.001)
+        w,b = linaerRegression(X, y, w, b, i,0.0001)
     plt.ioff()
+
+    y_pred = count_y_prediction(X, w, b)
+    draw(X,y,y_pred,0)
     plt.scatter(list(range(30)),losss)
     plt.show()
-    # y_pred = count_y_prediction(X, w, b)
-    # draw(X,y,y_pred,0)
