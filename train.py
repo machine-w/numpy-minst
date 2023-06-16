@@ -37,9 +37,10 @@ def combine_parameters(parameters,grad,learn_rate):
 #################################################################训练
 learn_rate=10**-0.6
 # learn_rate=1
-epoch_num=30
+
 parameters=init_parameters_simple()
-current_epoch=0
+epoch_num=30
+current_epoch=1
 batch_size=100
 def train_batch(current_batch,parameters):
     grad_accu=grad_parameters(data.train_img[current_batch*batch_size+0],data.train_lab[current_batch*batch_size+0],parameters)
@@ -53,6 +54,7 @@ def train_batch(current_batch,parameters):
 
 
 for epoch_ in range(epoch_num):
+    print('******running epoch {}/{}********'.format(current_epoch,epoch_num))
     for i in range(data.train_num//batch_size):
         if i%100==99:
             print('running batch {}/{}'.format(i+1,data.train_num//batch_size))
